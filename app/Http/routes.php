@@ -27,5 +27,21 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+
+});
+
+Route::group(['prefix'=>'/ftp'],function(){
+    Route::get('/', 'Controller/ftpController@index');
+    Route::post('/', 'Controller/ftpController@store');
+    Route::get('/{id}', 'Controller/ftpController@show');
+    Route::put('/{id}/edit', 'Controller/ftpController@edit');
+    Route::delete('/{id}', 'Controller/ftpController@destroy');
+});
+
+Route::group(['prefix'=>'/dropbox'],function(){
+    Route::get('/', 'Controller/dropboxController@index');
+    Route::post('/', 'Controller/dropboxController@store');
+    Route::get('/{id}', 'Controller/dropboxController@show');
+    Route::put('/{id}/edit', 'Controller/dropboxController@edit');
+    Route::delete('/{id}', 'Controller/dropboxController@destroy');
 });
