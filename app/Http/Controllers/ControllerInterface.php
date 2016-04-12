@@ -11,15 +11,12 @@ namespace App\Http\Controllers;
 
 interface ControllerInterface
 {
-
-    public function index();
-
-    public function store();
+    public function store(array $data);
 
     public function show($id);
 
-    public function edit($id);
+    public function update($id);
 
-    public function destory($id);
+    public function destroy($id);
 
 }

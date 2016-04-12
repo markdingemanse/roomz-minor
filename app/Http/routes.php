@@ -31,7 +31,6 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['prefix'=>'/ftp'],function(){
-    Route::get('/', 'Controller/ftpController@index');
     Route::post('/', 'Controller/ftpController@store');
     Route::get('/{id}', 'Controller/ftpController@show');
     Route::put('/{id}/edit', 'Controller/ftpController@edit');

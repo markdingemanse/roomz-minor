@@ -8,5 +8,13 @@
  */
 interface DropboxInterface
 {
+    public function query();
 
+    public function find($id);
+
+    public function save($data);
+
+    public function update();
+
+    public function delete($id);
 }

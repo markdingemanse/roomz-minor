@@ -8,5 +8,15 @@
  */
 class TempFilesRepository
 {
+    public function createFile($name,$content){
+        return $this->createFile($name,$content);
+    }
 
+    public function deleteFile($nameFile){
+        return $this->deleteFile($nameFile);
+    }
+
+    public function getFileContents($nameFile){
+        return $this->getFileContents($nameFile);
+    }
 }

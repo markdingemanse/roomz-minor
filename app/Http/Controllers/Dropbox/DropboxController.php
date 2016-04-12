@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllerInterface;
+use App\Repositiories\src\Providers\Dropbox\DropboxRepository;
 
 /**
  * Created by PhpStorm.
@@ -11,29 +12,31 @@ use App\Http\Controllers\ControllerInterface;
  */
 class DropboxController extends Controller implements ControllerInterface
 {
+    private $dropboxRepository;
 
-    public function index()
+    public function __construct(DropboxRepository $dropboxRepository)
     {
-        // TODO: Implement index() method.
+        $this->dropboxRepository = $dropboxRepository;
     }
 
-    public function store()
+    public function store(array $data)
     {
-        // TODO: Implement store() method.
+        $this->dropboxRepository->save($data);
     }
 
     public function show($id)
     {
-        // TODO: Implement show() method.
+        $this->dropboxRepository->findById($id);
     }
 
-    public function edit($id)
+    public function update($id)
     {
-        // TODO: Implement edit() method.
+        $this->dropboxRepository->update($id);
     }
 
-    public function destory($id)
+    public function destroy($id)
     {
-        // TODO: Implement destory() method.
+        $this->dropboxRepository->delete($id);
     }
+
 }

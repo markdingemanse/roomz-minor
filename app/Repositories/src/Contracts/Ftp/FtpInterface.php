@@ -9,4 +9,12 @@
 interface FtpInterface
 {
 
+    public function findById($id);
+
+    public function save(array $data);
+
+    public function update();
+
+    public function delete($id);
+
 }

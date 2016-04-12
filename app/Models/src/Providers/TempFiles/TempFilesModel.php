@@ -6,7 +6,7 @@
  * Date: 1-4-2016
  * Time: 10:43
  */
-class TempFilesRepository
+class TempFilesModel
 {
 
 }

@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers\Ftp;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllerInterface;
+use App\Repositiories\src\Providers\Ftp\FtpRepository;
+
 
 /**
  * Created by PhpStorm.
@@ -11,29 +14,31 @@ use App\Http\Controllers\ControllerInterface;
 class FtpController extends Controller implements ControllerInterface
 {
 
+    private $ftpRepository;
 
-    public function index()
+    public function __construct(FtpRepository $ftpRepository)
     {
-        // TODO: Implement index() method.
+        $this->FtpRepository = $ftpRepository;
     }
 
-    public function store()
+    public function store(array $data)
     {
-        // TODO: Implement store() method.
+        $this->ftpRepository->save($data);
     }
 
     public function show($id)
     {
-        // TODO: Implement show() method.
+        $this->ftpRepository->findById($id);
     }
 
-    public function edit($id)
+    public function update($id)
     {
-        // TODO: Implement edit() method.
+        $this->ftpRepository->update($id);
     }
 
-    public function destory($id)
+    public function destroy($id)
     {
-        // TODO: Implement destory() method.
+        $this->ftpRepository->delete($id);
     }
+
 }
