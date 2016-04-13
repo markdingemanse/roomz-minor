@@ -14,7 +14,7 @@ interface FtpInterface
 
     public function save($data);
 
-    public function update();
+    public function update($id);
 
     public function delete($id);
 

@@ -2,7 +2,6 @@
 
 use App\Models\AbstractModel;
 use Psr\Log\InvalidArgumentException;
-use GuzzleHttp\Psr7\Request;
 
 class FtpModel extends AbstractModel
 {
