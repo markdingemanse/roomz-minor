@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use Psr\Log\InvalidArgumentException;
 
 class AbstractModel
@@ -9,8 +10,9 @@ class AbstractModel
     protected $url;
     protected $headers = [];
     protected $defaultHeader = [];
+    protected $request;
 
-    protected function __construct()
+    public function __construct( )
     {
         $this->url = env('MIRROR_API_URL');
         $this->client = new Client;
@@ -59,6 +61,33 @@ class AbstractModel
         }
 
     }
+
+    public function setRequest($requestType,$url )
+    {
+        if((is_null($requestType)) || (is_null($url)))
+        {
+            throw new InvalidArgumentException('Input can not be empty.');
+        }
+        elseif((!is_string($requestType)) || (!is_string($url)))
+        {
+            throw new InvalidArgumentException('Input is not a string.');
+        }
+        else
+        {
+            $this->request = new Request($requestType, $url);
+        }
+    }
+
+    protected function sendRequest(Request $requestObject, $data = [])
+    {
+
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
 
     public function getDefaultHeaders()
     {

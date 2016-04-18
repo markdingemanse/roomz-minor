@@ -6,7 +6,7 @@ use Psr\Log\InvalidArgumentException;
 class FtpModel extends AbstractModel
 {
 
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -22,10 +22,14 @@ class FtpModel extends AbstractModel
         $this->setDefaultHeader('POST');
         $this->setHeaders($this->getDefaultHeaders());
 
-        $request = $this->getClient()->post($this->buildUri($url), $data);
+        $this->setRequest('POST', $this->buildUri($url));
+        $response = $this->getClient()->send($this->getRequest());
+
+
+        //$request = $this->getClient()->post($this->buildUri($url), $data);
 
         //is het goed of niet getStatusCode()
-        return json_decode($request->getStatusCode());
+        return json_decode($response);
     }
 
     //(Show)Find function  by id
