@@ -5,92 +5,140 @@ use Psr\Log\InvalidArgumentException;
 
 class DropboxModel extends  AbstractModel
 {
-
-    protected function __construct()
+    /**
+     * DropboxModel constructor.
+     */
+    public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse|string
+     */
     public function query()
     {
+        $requestType = 'GET';
         $url = $this->url . '/index';
+        $this->setDefaultHeader($requestType);
+        $headers = $this->setHeaders($this->getDefaultHeaders());
 
-        $this->setDefaultHeader('GET');
-        $this->setHeaders($this->getDefaultHeaders());
+        $this->setRequest($requestType, $this->buildUri($url), $headers, $data);
+        $response = $this->sendRequest($this->getRequest());
 
-        $request = $this->getClient()->get($this->buildUri($url));
+        $statusMessage = $this->buildResponse($response, $requestType);
 
-        // ophalen data met get getBody()->getContents()
-        return json_decode($request->getBody()->getContents());
+        return $statusMessage;
     }
 
     //Store function
+    /**
+     * @param $data
+     * @return \Illuminate\Http\JsonResponse|string
+     * Store function
+     * Url/save
+     * HTTP Method: POST = $requestType
+     */
     public function save($data)
     {
         if ((!is_array($data)) || (empty($data)))
         {
             throw new InvalidArgumentException('Input is not an array.');
         }
+        $requestType = 'POST';
         $url = $this->url . '/save';
-        $this->setDefaultHeader('POST');
-        $this->setHeaders($this->getDefaultHeaders());
+        $this->setDefaultHeader($requestType);
+        $headers = $this->setHeaders($this->getDefaultHeaders());
 
-        $request = $this->getClient()->post($this->buildUri($url), $data);
+        $this->setRequest($requestType, $this->buildUri($url), $headers, $data);
+        $response = $this->sendRequest($this->getRequest());
 
-        //is het goed of niet getStatusCode()
-        return json_decode($request->getStatusCode());
+        $statusMessage = $this->buildResponse($response, $requestType);
+
+        return $statusMessage;
     }
 
-    //(Show)Find function  by id
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     * (Show)Find function by id
+     * Url/find/id
+     * HTTP Method: GET = $requestType
+     */
     public function find($id)
     {
         if ((!is_int($id)) || (empty($id)))
         {
             throw new InvalidArgumentException('Input is not an id.');
         }
+        $requestType = 'GET';
         $url = $this->url . '/find/' . $id;
 
-        $this->setDefaultHeader('GET');
-        $this->setHeaders($this->getDefaultHeaders());
+        $this->setDefaultHeader($requestType);
+        $headers = $this->setHeaders($this->getDefaultHeaders());
 
-        $request = $this->getClient()->get($this->buildUri($url));
+        $this->setRequest($requestType, $this->buildUri($url), $headers, $id);
+        $response = $this->sendRequest($this->getRequest());
 
-        // ophalen data met get getBody()->getContents()
-        return json_decode($request->getBody()->getContents());
+        $statusMessage = $this->buildResponse($response, $requestType);
+
+        return $statusMessage;
     }
 
-    //Update function
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     * Update function
+     * Url/update/id
+     * HTTP Method: PUT = $requestType
+     */
     public function update($id)
     {
         if ((!is_int($id)) || (empty($id)))
         {
             throw new InvalidArgumentException('Input is not an id.');
         }
+        $requestType = 'PUT';
         $url = $this->url . '/update/' . $id;
 
-        $this->setDefaultHeader('PUT');
-        $this->setHeaders($this->getDefaultHeaders());
+        $this->setDefaultHeader($requestType);
+        $headers = $this->setHeaders($this->getDefaultHeaders());
 
-        $request = $this->getClient()->put($this->buildUri($url));
+        $this->setRequest($requestType, $this->buildUri($url), $headers, $id);
+        $response = $this->sendRequest($this->getRequest());
 
-        return json_decode($request->getStatusCode());
+        $statusMessage = $this->buildResponse($response, $requestType);
+
+        return $statusMessage;
     }
 
-    //Delete function
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse|string
+     * Delete functie
+     * Url: www.google.nl/delete/id
+     * HTTP Method: DELETE = $requestType
+     */
     public function delete($id)
     {
+        $id = intval($id);
         if ((!is_int($id)) || (empty($id)))
         {
             throw new InvalidArgumentException('Input is not an id.');
         }
+        $requestType = 'DELETE';
         $url = $this->url . '/delete/' . $id;
+        $this->setDefaultHeader($requestType);
+        $headers = $this->setHeaders($this->getDefaultHeaders());
 
-        $this->setDefaultHeader('DELETE');
-        $this->setHeaders($this->getDefaultHeaders());
+        $this->setRequest($requestType, $this->buildUri($url), $headers, $id);
+        $response = $this->sendRequest($this->getRequest());
 
-        $request = $this->getClient()->delete($this->buildUri($url));
+        $statusMessage = $this->buildResponse($response, $requestType);
 
-        return json_decode($request->getStatusCode());
+
+        return $statusMessage;
+
     }
 
 }

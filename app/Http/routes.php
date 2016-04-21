@@ -30,17 +30,29 @@ Route::group(['middleware' => ['web']], function () {
 
 });
 
-Route::group(['prefix'=>'/ftp'],function(){
-    Route::post('/', 'Controller/ftpController@store');
-    Route::get('/{id}', 'Controller/ftpController@show');
-    Route::put('/{id}/edit', 'Controller/ftpController@edit');
-    Route::delete('/{id}', 'Controller/ftpController@destroy');
-});
+/**
+ * @store -> FtpController function store
+ * @show -> FtpController function show
+ * @edit -> FtpController function edit
+ * @destroy -> FtpController function destroy
+ */
 
+Route::group(['prefix'=>'/ftp'],function(){
+    Route::post('/', 'Ftp\FtpController@store');
+    Route::get('/{id}', 'Ftp\FtpController@show');
+    Route::put('/{id}/edit', 'Ftp\FtpController@edit');
+    Route::delete('/{id}', 'Ftp\FtpController@destroy');
+});
+/**
+ * @store -> DropboxControlle function store
+ * @show -> DropboxControlle function show
+ * @edit -> DropboxControlle function edit
+ * @destroy -> DropboxControlle function destroy
+ */
 Route::group(['prefix'=>'/dropbox'],function(){
-    Route::get('/', 'Controller/dropboxController@index');
-    Route::post('/', 'Controller/dropboxController@store');
-    Route::get('/{id}', 'Controller/dropboxController@show');
-    Route::put('/{id}/edit', 'Controller/dropboxController@edit');
-    Route::delete('/{id}', 'Controller/dropboxController@destroy');
+    Route::get('/', 'Dropbox/DropboxController@index');
+    Route::post('/', 'Dropbox/DropboxController@store');
+    Route::get('/{id}', 'Dropbox/DropboxController@show');
+    Route::put('/{id}/edit', 'Dropbox/DropboxController@edit');
+    Route::delete('/{id}', 'Dropbox/DropboxController@destroy');
 });
