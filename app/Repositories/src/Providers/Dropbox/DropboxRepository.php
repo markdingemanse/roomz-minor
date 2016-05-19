@@ -27,9 +27,9 @@ class DropboxRepository
         $this->model->find($id);
     }
 
-    public function save(array $data)
+    public function save()
     {
-        $this->model->save($data);
+        $this->model->save();
     }
 
     public function update()

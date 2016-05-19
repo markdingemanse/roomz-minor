@@ -12,7 +12,7 @@ interface DropboxInterface
 
     public function findById($id);
 
-    public function save(array $data);
+    public function save();
 
     public function update();
 

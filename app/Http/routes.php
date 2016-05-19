@@ -50,9 +50,9 @@ Route::group(['prefix'=>'/ftp'],function(){
  * @destroy -> DropboxControlle function destroy
  */
 Route::group(['prefix'=>'/dropbox'],function(){
-    Route::get('/', 'Dropbox/DropboxController@index');
-    Route::post('/', 'Dropbox/DropboxController@store');
-    Route::get('/{id}', 'Dropbox/DropboxController@show');
-    Route::put('/{id}/edit', 'Dropbox/DropboxController@edit');
-    Route::delete('/{id}', 'Dropbox/DropboxController@destroy');
+    Route::get('/', 'Dropbox\DropboxController@index');
+    Route::post('/', 'Dropbox\DropboxController@store');
+    Route::get('/{id}', 'Dropbox\DropboxController@show');
+    Route::put('/{id}/edit', 'Dropbox\DropboxController@edit');
+    Route::delete('/{id}', 'Dropbox\DropboxController@destroy');
 });

@@ -1,45 +1,72 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.js"></script>
+<div ng-app="app">
+    <section ng-controller="TestController">
+        <form ng-submit="send(message)">
+            msg: <input type="text" ng-model="message" value="msg"><br>
+            <input type="submit" value="Submit">
+        </form>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+        <ul>
+            <li ng-repeat="data in TestSocket.collection track by $index">
+              @{{ data }}
+            </li>
+        </ul>
+    </section>
+</div>
+<script>
+  angular.module('app', [
+    'ngWebSocket' // you may also use 'angular-websocket' if you prefer
+  ])
+  //                          WebSocket works as well
+  .factory('TestSocket', function($websocket) {
+      //Math.floor((Math.random()*20)+1)
+      var account_id = Math.floor((Math.random()*4)+1);
+      var ws = $websocket('ws://192.168.10.10:8080?account_id=' + account_id + '&token=' + 'eenMooieEnToffeToken');
+      var collection = [];
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+      ws.onOpen( function (event) {
+          // nu niks meer :p
+      });
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+      ws.onMessage( function (message) {
+          var newMsg = JSON.parse(message.data);
+          console.debug(newMsg);
+          collection.push(newMsg.client.event);
+      });
 
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5</div>
-            </div>
-        </div>
-    </body>
-</html>
+      return {
+        collection: collection,
+        status: function() {
+            return ws.readyState;
+        },
+        send: function(message) {
+          if (angular.isString(message)) {
+              ws.send(message);
+          }
+          else if (angular.isObject(message)) {
+              ws.send(JSON.stringify(message));
+          }
+        },
+        account_id: function () {
+            return account_id;
+        }
+
+      };
+  })
+  .controller('TestController', function ($scope, TestSocket) {
+      $scope.TestSocket = TestSocket;
+
+      // $scope.send = function (msg) {
+      //     var obj = {
+      //       message: msg,
+      //       account_id: TestSocket.account_id,
+      //     }
+      //     TestSocket.send(obj);
+      // //    TestSocket.send(msg);
+      // //    console
+      // }
+  });
+</script>

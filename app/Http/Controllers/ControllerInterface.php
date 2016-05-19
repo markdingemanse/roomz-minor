@@ -6,7 +6,7 @@ interface ControllerInterface
      * @param array $data
      * @return mixed
      */
-    public function store(array $data);
+    public function store();
 
     /**
      * @param String $id

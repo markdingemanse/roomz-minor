@@ -39,8 +39,9 @@ class DropboxModel extends  AbstractModel
      * Url/save
      * HTTP Method: POST = $requestType
      */
-    public function save($data)
+    public function save()
     {
+        dd('reached');
         if ((!is_array($data)) || (empty($data)))
         {
             throw new InvalidArgumentException('Input is not an array.');

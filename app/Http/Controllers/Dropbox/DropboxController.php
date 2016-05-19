@@ -14,14 +14,39 @@ class DropboxController extends Controller implements ControllerInterface
 {
     private $dropboxRepository;
 
+    private $rules = [
+        'store' => [
+            'file' => 'required'
+        ]
+    ];
+
     public function __construct(DropboxRepository $dropboxRepository)
     {
         $this->dropboxRepository = $dropboxRepository;
     }
 
-    public function store(array $data)
+    public function store()
     {
-        $this->dropboxRepository->save($data);
+        // dd(\Request::only('file'));
+        $validator = \Validator::make(
+            \Request::only('file'),
+            $this->rules['store']
+        );
+
+        if ($validator->fails()) {
+            throw new \Exception(
+                'Not all data passed the validation ', 404
+            );
+        }
+
+        $postArray = \Request::input();
+
+        $jobId = \Queue::push(
+            'App\Services\RoomzDropboxService',
+            $postArray,
+            'api-proxy-roomz'
+        );
+        return '204';
     }
 
     public function show($id)
